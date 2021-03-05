@@ -42,29 +42,6 @@ export default class MyBarters extends React.Component{
         this.getDonorDetails();
     }
 
-    sendNotification=(itemDetails,requestStatus)=>{
-        var request_id = itemDetails.request_id;
-        var donor_id = itemDetails.donor_id;
-        db.collection("all_notifications").where("request_id","==",request_id).where("donor_id","==",donor_id).get()
-        .then(
-            snapshot=>{
-                snapshot.forEach((doc)=>{
-                    var message=''
-                    if (requestStatus==="Item Send") {
-                        message = this.state.donorName + "has send the item" 
-                    }else {
-                        message = this.state.donorName + " has shown intrest in donating the item "
-                    }
-                    db.collection("all_notifications").add({
-                       "message":message,
-                       "requestStatus":"unread",
-                       "date":firebase.firestore.fieldValue.serverTimestamp(),
-                    })
-                })
-            }
-        )
-     }
-
     sendItem=()=>{
        
       if (itemDetails.request_status==="Book Sent") {
